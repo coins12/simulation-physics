@@ -72,38 +72,3 @@ assign nextst[19] = cnst (rul, cut(19,state));
 
 endmodule
 
-
-module TEST;
-
-wire [19:0] state;
-reg clk,res;
-reg [4:0] count;
-wire [19:0] init = 20'habcde;
-
-parameter STEP = 100;
-
-autocell a0 (init, clk, res, state);
-
-initial begin
-	count = 0;
-	$monitor ("%t: state=%b", $time, state);
-	res = 1;
-	#1 res = 0;
-	#1 res = 1;
-end
-
-always begin
-	if (count == 20)
-	begin
-		$finish;
-	end
-	else
-	begin
-		clk = 0; #(STEP/2);
-		clk = 1; #(STEP/2);
-		count = count + 1;
-	end
-end
-
-endmodule
-
